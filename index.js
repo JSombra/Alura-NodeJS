@@ -1,12 +1,19 @@
 const chalk = require('chalk');
-console.log(chalk.red.bgGreen.bold("Vamos testar"));
+const fs = require('fs');
 
-const paragrafo = "Texto retornado por uma função";
-const paragrafo2 = 'Texto de testa referente ao chalk'
-
-function texto (string) {
-    return string;
+function trataErro (erro) {
+    throw new Error(chalk.white.bgRedBright.bold(erro.code, 'Não há arquivos no caminho')); //throw new Error, é como deve ser tratado uma mensagem de erro. erro.code mostra o código do erro, para ficar mais fácil de verificar na documentação
 }
 
-console.log(chalk.black.bgWhite.bold(texto(paragrafo)))
-console.log(chalk.red.underline.bgWhite(texto(paragrafo2)));
+function pegaArquivo (caminhoDoArquivo) {
+    const encoding = 'utf-8'
+    fs.readFile(caminhoDoArquivo, encoding, (erro, texto) => {
+        if (erro) {
+            trataErro(erro)
+        } else {
+            console.log(chalk.black.bgGreenBright(texto));
+        }
+    })
+}
+
+pegaArquivo('./arquivos/texto1.md')
