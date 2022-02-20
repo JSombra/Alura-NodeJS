@@ -1,5 +1,7 @@
 const chalk = require('chalk');
 const fs = require('fs');
+const { Module } = require('module');
+const path = require('path');
 
 
 function extraiLinks (texto) {
@@ -17,16 +19,20 @@ function trataErro (erro) {
     throw new Error(chalk.white.bgRedBright.bold(erro.code, 'Não há arquivos no caminho informado')); //throw new Error, é como deve ser tratado uma mensagem de erro. erro.code mostra o código do erro, para ficar mais fácil de verificar na documentação
 }
 
-async function pegaArquivo (caminhoDoArquivo) {
+async function pegaArquivo(caminho) {
+    const caminhoAbsoluto = path.join(__dirname, '..', caminho);
     const encoding = 'utf-8';
     try {
-        const texto = await fs.promises.readFile(caminhoDoArquivo, encoding)
-        console.log(extraiLinks(texto));
-    } catch (erro) {
-        trataErro(chalk.white.bgRedBright(erro))
-    } finally { //finally vai ser executado, dando erro ou não.
-        console.log(chalk.black.bgYellowBright("A operação foi concluída com sucesso"));
-    }
+    const arquivos = await fs.promises.readdir(caminhoAbsoluto, { encoding });
+    const result = await Promise.all(arquivos.map(async (arquivo) => {
+      const localArquivo = `${caminhoAbsoluto}/${arquivo}`;
+      const texto = await fs.promises.readFile(localArquivo, encoding);
+      return extraiLinks(texto);
+    }));
+    return result
+   } catch {
+       return trataErro(erro)
+   }
 }
 
-pegaArquivo('./arquivos/texto1.md')
+module.exports = pegaArquivo;
