@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "cli": "node cli.js ./curso-alura-nodejs-express/arquivos/"
+    "cli": "node cli.js ./arquivos/texto1.md"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "chalk": "^5.0.0"
+    "chalk": "^5.0.0",
+    "node-fetch": "^2.6.7"
   }
 }
