@@ -1,4 +1,4 @@
-const chalk = require('chalk');
+// const chalk = require('chalk');
 const fs = require('fs');
 const { Module } = require('module');
 const path = require('path');
@@ -16,7 +16,7 @@ function extraiLinks (texto) {
 
 
 function trataErro (erro) {
-    throw new Error(chalk.white.bgRedBright.bold(erro.code, 'Não há arquivos no caminho informado')); //throw new Error, é como deve ser tratado uma mensagem de erro. erro.code mostra o código do erro, para ficar mais fácil de verificar na documentação
+    throw new Error(erro.code, 'Não há arquivos no caminho informado'); //throw new Error, é como deve ser tratado uma mensagem de erro. erro.code mostra o código do erro, para ficar mais fácil de verificar na documentação
 }
 
 async function pegaArquivo (caminhoDoArquivo) {
